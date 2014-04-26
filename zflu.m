@@ -45,3 +45,4 @@ for k=1:n
     L(k, k) = 1;
 end
 U = triu(A);
+
