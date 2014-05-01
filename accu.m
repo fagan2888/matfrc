@@ -1,14 +1,14 @@
 
 n = 1500;
-my_error = zeros(1, 1000);
-sys_error = zeros(1, 1000);
+my_error = zeros(1, n);
+sys_error = zeros(1, n);
 
 for i = 1:n
     test = randn(5);
-    [zp, zq, zl, zu] = zflu(test);
+    [zp, zl, zu] = zgaxpyplu(test);
     [l, u] = lu(test);
 
-    my_error(i) = norm(zl*zu - zp*test*zq, 'fro');
+    my_error(i) = norm(zl*zu - zp*test, 'fro');
     sys_error(i) = norm(l*u - test, 'fro');
 end
 
