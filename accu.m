@@ -4,11 +4,11 @@ my_error = zeros(1, n);
 sys_error = zeros(1, n);
 
 for i = 1:n
-    test = randn(5);
-    [zp, zl, zu] = zgaxpyplu(test);
+    test = genpd(5);
+    [zg] = zopchol(test);
     [l, u] = lu(test);
 
-    my_error(i) = norm(zl*zu - zp*test, 'fro');
+    my_error(i) = norm(zg*(zg') - test, 'fro');
     sys_error(i) = norm(l*u - test, 'fro');
 end
 
