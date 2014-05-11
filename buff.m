@@ -1,22 +1,18 @@
-function [G] = zopchol(A)
-%cholesky decomposition based on rank-1 matrix update
+n = 1500;
+my_error = zeros(1, n);
+sys_error = zeros(1, n);
 
-[m, n] = size(A);
-if m ~= n
-    error('support square matrix only')
+for i = 1:n
+    test = gensys(5);
+    [zd, zl] = zldl(test);
+    [l, d] = ldl(test);
+
+    my_error(i) = norm(zl*zd*(zl') - test, 'fro');
+    sys_error(i) = norm(l*d*(l') - test, 'fro');
 end
 
-G = zeros(n);
+fprintf('mean of my lu     : %g\n', mean(my_error));
+fprintf('variance of my lu : %g\n', var(my_error));
 
-for k=1:n
-    
-    G(k,k) = sqrt(A(k,k));
-    G(k+1:end, k) = A(k+1:end, k) / G(k,k);
-    
-    %update matrix A
-    for j = (k+1):n
-        A(k+1:end,j) = A(k+1:end,j) - G(j,k)*G(k+1:end,k);
-    end
-end
-
-    
+fprintf('mean of matlab lu     : %g\n', mean(sys_error));
+fprintf('variance of matlab lu : %g\n', var(sys_error));

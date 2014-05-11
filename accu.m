@@ -4,12 +4,12 @@ my_error = zeros(1, n);
 sys_error = zeros(1, n);
 
 for i = 1:n
-    test = genpd(5);
-    [zg] = zopchol(test);
-    [l, u] = lu(test);
+    test = gensys(5);
+    [zd, zl] = zldl(test);
+    [l, d] = ldl(test);
 
-    my_error(i) = norm(zg*(zg') - test, 'fro');
-    sys_error(i) = norm(l*u - test, 'fro');
+    my_error(i) = norm(zl*zd*(zl') - test, 'fro');
+    sys_error(i) = norm(l*d*(l') - test, 'fro');
 end
 
 fprintf('mean of my lu     : %g\n', mean(my_error));
