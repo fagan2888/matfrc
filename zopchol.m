@@ -1,5 +1,7 @@
 function [G] = zopchol(A)
 %cholesky decomposition based on rank-1 matrix update
+%this problem can be formalized as A = [a b; b' B];
+%then A = [ c d; d' D ]; and c = sqrt(a); d = b / c; and D = B - d*d' / a ;
 
 [m, n] = size(A);
 if m ~= n
